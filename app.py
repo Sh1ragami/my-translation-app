@@ -11,14 +11,16 @@ model = genai.GenerativeModel("gemini-flash-latest")
 st.title("みんなでつくるAI翻訳アプリ") # タイトル
 
 source_text = st.text_area("翻訳したいテキストを入力してください") # テキスト入力欄
-target_lang = st.selectbox("翻訳先の言語", []) # セレクトボックス
-submit_button = st.button("〇〇〇") # ボタン
+target_lang = st.selectbox("翻訳先の言語", ["英語", "日本語", "中国語", "韓国語", "ネパール語", "インド語"]) # セレクトボックス
+submit_button = st.button("翻訳") # ボタン
 
 # --- ボタンが押された後の処理 ---
 if submit_button and source_text:
     # Geminiへの命令文を作成
-    
+    prompt = f"{source_text} 。こちらの言語を{target_lang}に翻訳してください。"
     # APIを呼び出し
+    res = model.generate_content(prompt)
     
     # 結果を表示
     st.subheader("翻訳結果")
+    st.write(res.text)
